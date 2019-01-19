@@ -1,50 +1,52 @@
-@extends('layouts.app')
-
+@extends('layouts.app') 
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                    <a  href="{{ route('salaries.create') }}" class="btn btn-success btn-rounded waves-effect waves-light">Create salary</a>
-                    <table class="table" id="table">
-                        <thead>
-                            <tr>
-                                    <th>Id</th>
-                                    <th>User name</th>
-                                    <th>work_days</th>
-                                    <th>over_days</th>
-                                    <th>total_sales</th>
-                                    <th>comission</th>
-                                    <th>bonus</th>
-                                    <th>Gross salary</th>
-                                    <th>Total salary</th>
-                                    <th>Advance</th>
-                                    <th>To be paid</th>
-                                    <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Id</th>
-                                <th>User name</th>
-                                <th>work_days</th>
-                                <th>over_days</th>
-                                <th>total_sales</th>
-                                <th>comission</th>
-                                <th>bonus</th>
-                                <th>Gross salary</th>
-                                <th>Total salary</th>
-                                <th>Advance</th>
-                                <th>To be paid</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div> <!-- end card body-->
-            </div> <!-- end card -->
-        </div><!-- end col-->
+                <a href="{{ route('salaries.create') }}" class="btn btn-success btn-rounded waves-effect waves-light">Create salary</a>
+                <table class="table" id="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>User name</th>
+                            <th>Work days</th>
+                            <th>Over days</th>
+                            <th>Total sales</th>
+                            <th>Comission</th>
+                            <th>Bonus</th>
+                            <th>Gross salary</th>
+                            <th>Total salary</th>
+                            <th>Advance</th>
+                            <th>To be paid</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>User name</th>
+                            <th>Work days</th>
+                            <th>Over days</th>
+                            <th>Total sales</th>
+                            <th>Comission</th>
+                            <th>Bonus</th>
+                            <th>Gross salary</th>
+                            <th>Total salary</th>
+                            <th>Advance</th>
+                            <th>To be paid</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
     </div>
-    <!-- end row-->
+    <!-- end col-->
+</div>
+<!-- end row-->
 @endsection
 
 @section('javascript')
@@ -87,7 +89,6 @@
 
 </script>
 @endsection
-
+ 
 @section('css')
-
 @endsection
