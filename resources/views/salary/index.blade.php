@@ -89,6 +89,3 @@
 
 </script>
 @endsection
- 
-@section('css')
-@endsection

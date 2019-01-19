@@ -72,11 +72,3 @@
 
 </script>
 @endsection
-
-@section('css')
-    <style>
-        .btn.btn-success.btn-rounded.waves-effect.waves-light {
-            width: 100px;
-        }
-    </style>
-@endsection

@@ -15,17 +15,17 @@
 </div>
 <div class="form-group {{ $errors->has('gross_salary') ? 'has-error' : ''}}">
     {!! Form::label('gross_salary', 'Gross salary', ['class' => 'control-label']) !!}
-    {!! Form::text('gross_salary', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('gross_salary', null, ['class' => 'form-control', 'required' => 'required', 'data-parsley-type' => 'integer']) !!}
     {!! $errors->first('gross_salary', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('comission_percent') ? 'has-error' : ''}}">
     {!! Form::label('comission_percent', 'Comission percentage', ['class' => 'control-label']) !!}
-    {!! Form::text('comission_percent', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('comission_percent', null, ['class' => 'form-control', 'required' => 'required', 'data-parsley-type' => 'integer']) !!}
     {!! $errors->first('comission_percent', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('bonus') ? 'has-error' : ''}}">
     {!! Form::label('bonus', 'Bonus', ['class' => 'control-label']) !!}
-    {!! Form::text('bonus', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('bonus', null, ['class' => 'form-control', 'required' => 'required', 'data-parsley-type' => 'integer']) !!}
     {!! $errors->first('bonus', '<p class="help-block">:message</p>') !!}
 </div>
 

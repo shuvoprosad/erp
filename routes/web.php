@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware([ 'auth'])->group(function () {
     Route::resource('users', 'UserController');
+    Route::resource('customers', 'CustomerController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('roles', 'RoleController');
     Route::resource('products', 'ProductController');
