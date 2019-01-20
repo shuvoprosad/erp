@@ -47,6 +47,13 @@ class ProductLeadController extends Controller
                     return $html;
                 }
             )
+            ->filter(function ($query) use ($request) {
+                if ($request->has('from') && $request->has('to')) {
+                    $start = date("Y-m-d",strtotime($request->input('from')));
+                    $end = date("Y-m-d",strtotime($request->input('to')."+1 day"));
+                    $query->whereBetween('orders.created_at',[$start,$end]);
+                }
+            })
             ->make(true);
         }
 

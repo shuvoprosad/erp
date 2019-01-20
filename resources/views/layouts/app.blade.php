@@ -11,10 +11,6 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!-- third party css -->
-        <link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-        
         @yield('css')
         <!-- third party css end -->
 
@@ -314,17 +310,12 @@
         <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
 
         <!-- third party js -->
-        <script src="{{ asset('assets/libs/datatables/jquery.dataTables.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables/dataTables.buttons.min.js') }}"></script>
         @yield('javascript')
         <!-- third party js ends -->
         
         <!-- App js -->
-        <script src="{{ asset('assets/js/app.min.js') }}"></script>
         @yield('javascript_end')
+        <script src="{{ asset('assets/js/app.min.js') }}"></script>
         
     </body>
 </html>

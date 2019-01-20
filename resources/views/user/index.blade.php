@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -38,6 +44,14 @@
 @endsection
 
 @section('javascript')
+<script src="{{ asset('assets/libs/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.buttons.min.js') }}"></script>
+@endsection
+
+@section('javascript_end')
 <script>
     $(function() {
     $('#table').DataTable({
@@ -58,7 +72,7 @@
             this.api().columns([1,2,3,4,5]).every(function () {
                 var column = this;
                 var input = document.createElement("input");
-                $(input).appendTo($(column.header()).empty())
+                $(input).appendTo($(column.footer()).empty())
                 .on('change', function () {
                     column.search($(this).val(), false, false, true).draw();
                 });

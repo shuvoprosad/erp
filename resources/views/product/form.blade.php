@@ -8,10 +8,10 @@
     {!! Form::text('price', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
     {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
 </div>
-<div class="form-group {{ $errors->has('available') ? 'has-error' : ''}}">
-    {!! Form::label('available', 'Available', ['class' => 'control-label']) !!}
-    {!! Form::text('available', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('available', '<p class="help-block">:message</p>') !!}
+<div class="form-group {{ $errors->has('units_in_stock') ? 'has-error' : ''}}">
+    {!! Form::label('units_in_stock', 'Available', ['class' => 'control-label']) !!}
+    {!! Form::text('units_in_stock', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! $errors->first('units_in_stock', '<p class="help-block">:message</p>') !!}
 </div>
 
 

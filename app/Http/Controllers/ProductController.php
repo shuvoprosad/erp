@@ -21,7 +21,7 @@ class ProductController extends Controller
         
         if (request()->ajax()|| 1==3) 
         {
-            $products = Product::query(['id', 'name', 'price', 'available']);
+            $products = Product::query(['id', 'name', 'price', 'units_in_stock']);
             
             return datatables()
             ->of($products)

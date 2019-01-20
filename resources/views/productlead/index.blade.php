@@ -1,13 +1,32 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                    <a  href="{{ route('productleads.create') }}" class="btn btn-success btn-rounded waves-effect waves-light">Create lead</a>
-                    <span id="date-label-from" class="date-label">From: </span><input class="date_range_filter date" type="text" id="datepicker_from" />
-                    <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to" />
+                <a href="{{ route('productleads.create') }}" class="btn btn-success btn-rounded waves-effect waves-light">Create lead</a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label>From</label>
+                            <input name="from" class="form-control flatpickr-input" type="text">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label>To</label>
+                            <input name="to" class="form-control flatpickr-input" type="text">
+                        </div>
+                    </div>
+                </div>
                     <table class="table" id="table">
                         <thead>
                             <tr>
@@ -40,68 +59,28 @@
 @endsection
 
 @section('javascript')
+<script src="{{ asset('assets/libs/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+@endsection
+
+@section('javascript_end')
 <script>
-
-$("#datepicker_from").datepicker({
-    showOn: "button",
-    buttonImage: "images/calendar.gif",
-    buttonImageOnly: false,
-    "onSelect": function(date) {
-    minDateFilter = new Date(date).getTime();
-    oTable.fnDraw();
-    }
-}).keyup(function() {
-    minDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
-  });
-
-  $("#datepicker_to").datepicker({
-    showOn: "button",
-    buttonImage: "images/calendar.gif",
-    buttonImageOnly: false,
-    "onSelect": function(date) {
-      maxDateFilter = new Date(date).getTime();
-      oTable.fnDraw();
-    }
-  }).keyup(function() {
-    maxDateFilter = new Date(this.value).getTime();
-    oTable.fnDraw();
-  });
-
-});
-
-// Date range filter
-minDateFilter = "";
-maxDateFilter = "";
-
-$.fn.dataTableExt.afnFiltering.push(
-  function(oSettings, aData, iDataIndex) {
-    if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[15]).getTime();
-    }
-
-    if (minDateFilter && !isNaN(minDateFilter)) {
-      if (aData._date < minDateFilter) {
-        return false;
-      }
-    }
-
-    if (maxDateFilter && !isNaN(maxDateFilter)) {
-      if (aData._date > maxDateFilter) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-);
-
 $(function() {
-    $('#table').DataTable({
+    var oTable = $('#table').DataTable({
         processing: false,
         serverSide: true,
         scrollX: true,
-        ajax: '{{ route('productleads.index') }}',
+        ajax: {
+            url:'{{ route('productleads.index') }}',
+            data: function (d) {
+                d.from = $('input[name=from]').val();
+                d.to = $('input[name=to]').val();
+            }
+        },
         columns: [
                 { data: 'id', name: 'orders.id' },
                 { data: 'customer.name', name: 'customer.name' },
@@ -125,7 +104,36 @@ $(function() {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }
     });
+
+$('input[name=from]').flatpickr({
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    onClose: function(selectedDates, dateStr, instance){
+        oTable.draw();
+    }
 });
 
+$('input[name=to]').flatpickr({
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+    onClose: function(selectedDates, dateStr, instance){
+        oTable.draw();
+    }
+});
+
+  $("#datepicker_to").datepicker({
+    showOn: "button",
+    "onSelect": function(date) {
+      maxDateFilter = new Date(date).getTime();
+      oTable.draw();
+    }
+  }).keyup(function() {
+    maxDateFilter = new Date(this.value).getTime();
+    oTable.draw();
+  });
+
+});
 </script>
 @endsection
