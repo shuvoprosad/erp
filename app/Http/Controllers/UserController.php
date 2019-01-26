@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use App\User;
-use DataTables;
 use Illuminate\Http\Request;
+
+use DataTables;
+use App\User;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -22,9 +23,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::query(['id', 'name', 'email', 'mobile', 'address', 'type']);
+        $this->get_all_role_names();
+        $users = User::query();
         
-        if (request()->ajax()|| 1==3) 
+        if (request()->ajax()|| 1==2) 
         {
             return DataTables()
             ::of($users)
@@ -47,7 +49,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        $roles = $this->get_all_role_names();
+        return view('user.create',compact('roles'));
     }
 
     /**
@@ -59,10 +62,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $requestData = $request->all();
-        
-        User::create($requestData);
+        $user = new User;
+        $user->name = $request->name;
+        $user->image = $request->image;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
+        $user->type = $request->type;
+        $user->save();
+
+        $user->syncRoles($request->roles);
 
         return view('user.index')->with('flash_message', 'no added!');
     }
@@ -91,8 +101,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-
-        return view('user.edit', compact('user'));
+        $oldRoles = $user->getRoleNames();
+        $roles = $this->get_all_role_names();
+        //dd($roles);
+        return view('user.edit', compact('user','roles','oldRoles'));
     }
 
     /**
@@ -104,12 +116,19 @@ class UserController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
-    {
-        
-        $requestData = $request->all();
-        
+    {   
         $user = User::findOrFail($id);
-        $user->update($requestData);
+        $user->name = $request->name;
+        $user->image = $request->image;
+        $user->email = $request->email;
+        $user->password = is_null($request->password) ? $user->password:$request->password;
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
+        $user->type = $request->type;
+        $user->save();
+
+        $user->syncRoles($request->roles);
+        //dd($request->roles);
 
         return view('user.index')->with('flash_message', 'no updated!');
     }
@@ -127,4 +146,11 @@ class UserController extends Controller
 
         return view('user.index')->with('flash_message', 'no deleted!');
     }
+
+    public function get_all_role_names(){
+        $roles = Role::get()->pluck('name','name');
+        //$roles = Role::get()->pluck('name')->toArray();
+        return $roles;
+    }
+
 }
