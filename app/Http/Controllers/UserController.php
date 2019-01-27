@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use DataTables;
 use App\User;
@@ -23,11 +24,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->get_all_role_names();
-        $users = User::query();
-        
-        if (request()->ajax()|| 1==2) 
+        if (request()->ajax() || 1==2) 
         {
+            $users = User::query();
             return DataTables()
             ::of($users)
             ->addColumn('action',
@@ -63,12 +62,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User;
+        if(!is_null($request->name))
         $user->name = $request->name;
+
+        if(!is_null($request->image))
         $user->image = $request->image;
+
+        if(!is_null($request->email))
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
+
+        if(!is_null($request->password))
+        $user->password = Hash::make($request->password);
+
+        if(!is_null($request->name))
         $user->mobile = $request->mobile;
+
+        if(!is_null($request->name))
         $user->address = $request->address;
+
+        if(!is_null($request->name))
         $user->type = $request->type;
         $user->save();
 
@@ -118,15 +130,29 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {   
         $user = User::findOrFail($id);
+        if(!is_null($request->name))
         $user->name = $request->name;
+
+        if(!is_null($request->image))
         $user->image = $request->image;
+
+        if(!is_null($request->email))
         $user->email = $request->email;
-        $user->password = is_null($request->password) ? $user->password:$request->password;
+
+        if(!is_null($request->password))
+        $user->password = Hash::make($request->password);
+
+        if(!is_null($request->name))
         $user->mobile = $request->mobile;
+
+        if(!is_null($request->name))
         $user->address = $request->address;
+
+        if(!is_null($request->name))
         $user->type = $request->type;
         $user->save();
 
+        if(!is_null($request->name))
         $user->syncRoles($request->roles);
         //dd($request->roles);
 

@@ -19,9 +19,6 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('agent_id');
             $table->string('counter')->nullable();
             $table->string('status_0')->nullable();
-            $table->string('payment_type')->nullable();
-            $table->string('Payment_number')->nullable();
-            $table->string('Paid_amount')->nullable();
             $table->unsignedInteger('shipped_by')->nullable();
             $table->string('shipping_method')->nullable();
             $table->string('status_1')->nullable();

@@ -18,8 +18,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement("SET FOREIGN_KEY_CHECKS = 0");
-
+        
         DB::table('users')->insert([
             'name' => 'ashik',
             'email' => 'ashik@gmail.com',
@@ -40,8 +39,5 @@ class UsersTableSeeder extends Seeder
 
         $admin->assignRole('super_admin');
 
-        DB::statement("SET FOREIGN_KEY_CHECKS = 1");
-
-        DB::commit();
     }
 }

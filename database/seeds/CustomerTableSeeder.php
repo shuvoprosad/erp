@@ -14,7 +14,7 @@ class CustomerTableSeeder extends Seeder
         for ($i=0; $i < 20; $i++) { 
             DB::table('customers')->insert([
                 'name' => str_random(15),
-                'phone' => str_random(11),
+                'mobile' => str_random(11),
                 'address' => str_random(30),
             ]);
         }
