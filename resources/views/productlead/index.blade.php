@@ -12,7 +12,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <a href="{{ route('productleads.create') }}" class="btn btn-success btn-rounded waves-effect waves-light">Create lead</a>
+                <a href="{{ route('productleads.create') }}" class="btn btn-primary waves-effect waves-light">Create lead</a>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
@@ -119,23 +119,23 @@ $(function() {
         } );
     } );
 
-$('input[name=from]').flatpickr({
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    onClose: function(selectedDates, dateStr, instance){
-        oTable.draw();
-    }
-});
+    $('input[name=from]').flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        onClose: function(selectedDates, dateStr, instance){
+            oTable.draw();
+        }
+    });
 
-$('input[name=to]').flatpickr({
-    altInput: true,
-    altFormat: "F j, Y",
-    dateFormat: "Y-m-d",
-    onClose: function(selectedDates, dateStr, instance){
-        oTable.draw();
-    }
-});
+    $('input[name=to]').flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        onClose: function(selectedDates, dateStr, instance){
+            oTable.draw();
+        }
+    });
 
 
 });

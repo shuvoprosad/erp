@@ -42,8 +42,8 @@ class ProductLeadController extends Controller
             ->of($orders)
             ->addColumn('action',
                 function ($orders) {
-                    $html ='<a href="' . route('productleads.edit', ['id'=>$orders->id]) . '" class="btn btn-primary btn-rounded waves-effect waves-light"> <i class="glyphicon glyphicon-edit"></i> edit </a>';
-                    $html .='<a href="' . route('productleads.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger btn-rounded waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
+                    $html ='<a href="' . route('productleads.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i> edit </a>';
+                    $html .='<a href="' . route('productleads.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
                     return $html;
                 }
             )
