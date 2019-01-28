@@ -5,12 +5,12 @@
 </div>
 <div class="form-group {{ $errors->has('counter') ? 'has-error' : ''}}">
     {!! Form::label('counter', 'Counter', ['class' => 'control-label']) !!}
-    {!! Form::text('counter', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('counter', null, ['class' => 'form-control', 'required' => 'required']) !!}
     {!! $errors->first('counter', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('status_0') ? 'has-error' : ''}}">
     {!! Form::label('status_0', 'Status 0', ['class' => 'control-label']) !!}
-    {!! Form::select('status_0', $status, old('status')??isset($productlead)?$productlead->status_0:null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::select('status_0', $status, old('status_0'), ['class' => 'form-control', 'required' => 'required']) !!}
     {!! $errors->first('status_0', '<p class="help-block">:message</p>') !!}
 </div>
 

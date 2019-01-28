@@ -26,6 +26,14 @@ Route::middleware([ 'auth'])->group(function () {
     Route::resource('products', 'ProductController');
     Route::resource('productleads', 'ProductLeadController');
     Route::resource('productorders', 'ProductOrderController');
+    Route::group(['prefix'=>'payments','as'=>'payments.'], function(){
+        Route::get('/{order_id}', ['as' => 'index', 'uses' => 'PaymentController@index']);
+        Route::get('create/{order_id}', ['as' => 'create', 'uses' => 'PaymentController@create']);
+        Route::post('store/{order_id}', ['as' => 'store', 'uses' => 'PaymentController@store']);
+        Route::get('{id}/edit', ['as' => 'edit', 'uses' => 'PaymentController@edit']);
+        Route::patch('{id}/update', ['as' => 'update', 'uses' => 'PaymentController@update']);
+        Route::delete('{id}/destroy', ['as' => 'destroy', 'uses' => 'PaymentController@store']);
+    });
     Route::resource('salaries', 'SalaryController');
 });
 

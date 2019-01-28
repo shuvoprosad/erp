@@ -18,9 +18,6 @@
                                 <th>Customer name</th>
                                 <th>Customer num</th>
                                 <th>Customer address</th>
-                                <th>Payment type</th>
-                                <th>Payment num</th>
-                                <th>Paid amount</th>
                                 <th>Shipped by</th>
                                 <th>Shipping method</th>
                                 <th>Status 1</th>
@@ -36,9 +33,6 @@
                                 <th>Customer name</th>
                                 <th>Customer num</th>
                                 <th>Customer address</th>
-                                <th>Payment type</th>
-                                <th>Payment num</th>
-                                <th>Paid amount</th>
                                 <th>Shipped by</th>
                                 <th>Shipping method</th>
                                 <th>Status 1</th>
@@ -66,7 +60,12 @@
 
 @section('javascript_end')
 <script>
-    $(function() {
+$(function() {
+    $.fn.dataTable.ext.errMode = 'none';
+    $('#table').on( 'error.dt', function ( e, settings, techNote, message ) {
+    console.log( 'An error has been reported by DataTables: ', message );
+    } ) ;
+
     $('#table').DataTable({
         processing: false,
         serverSide: true,
@@ -76,11 +75,8 @@
         columns: [
                 { data: 'id', name: 'orders.id' },
                 { data: 'customer.name', name: 'customer.name' },
-                { data: 'customer.phone', name: 'customer.phone' },
+                { data: 'customer.mobile', name: 'customer.mobile' },
                 { data: 'customer.address', name: 'customer.address' },
-                { data: 'payment_type', name: 'orders.payment_type' },
-                { data: 'Payment_number', name: 'orders.Payment_number' },
-                { data: 'Paid_amount', name: 'orders.Paid_amount' },
                 { data: 'shipped_by.name', name: 'shipped_by.name' },
                 { data: 'shipping_method', name: 'orders.shipping_method' },
                 { data: 'status_1', name: 'orders.status_1' },
@@ -90,7 +86,7 @@
                 { data: 'action', name: 'action', orderable: false, searchable: false}
             ],
         initComplete: function () {
-            this.api().columns([1,2,3,4,5,6,7,8,9,10,11]).every(function () {
+            this.api().columns([1,2,3,4,5,6,7,8,9]).every(function () {
                 var column = this;
                 var input = document.createElement("input");
                 $(input).appendTo($(column.footer()).empty())

@@ -62,8 +62,9 @@ class ProductOrderController extends Controller
             ->of($orders)
             ->addColumn('action',
                 function ($orders) {
-                    $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary btn-rounded waves-effect waves-light"> <i class="glyphicon glyphicon-edit"></i> edit </a>';
-                    $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger btn-rounded waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
+                    $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i> edit </a>';
+                    $html .='<a href="' . route('payments.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> payment  </a>';
+                    $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
                     return $html;
                 }
             )
@@ -154,9 +155,6 @@ class ProductOrderController extends Controller
         $requestData = $request->all();
         
         $productlead = Order::findOrFail($id);
-        $productlead->payment_type = $request->payment_type;
-        $productlead->Payment_number = $request->Payment_number;
-        $productlead->Paid_amount = $request->Paid_amount;
         $productlead->shipped_by = $request->shipped_by;
         $productlead->shipping_method = $request->shipping_method;
         $productlead->status_1 = $request->status_1;
