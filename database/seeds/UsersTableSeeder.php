@@ -31,13 +31,18 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('0574'),
         ]);
 
-        $admin_role = Role::create([ 'name' => 'super_admin',
-                                'guard_name' => 'web'
-                            ]);
+        $admin_role = Role::create([ 
+            'name' => 'super_admin',
+            'guard_name' => 'web'
+        ]);
         
         $admin = User::findOrFail(1);
 
         $admin->assignRole('super_admin');
+
+        $admin2 = User::findOrFail(2);
+
+        $admin2->assignRole('super_admin');
 
     }
 }

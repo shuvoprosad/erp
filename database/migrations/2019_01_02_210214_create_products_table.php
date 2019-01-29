@@ -20,7 +20,8 @@ class CreateProductsTable extends Migration
             $table->text('image')->nullable();
             $table->text('description')->nullable();
             $table->string('sku')->nullable();
-            $table->integer('price')->nullable();
+            $table->integer('buy_price')->nullable();
+            $table->integer('sell_price')->nullable();
             $table->integer('units_in_stock')->nullable();
             $table->integer('units_in_shipping')->nullable();
             $table->text('note')->nullable();
