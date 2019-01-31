@@ -13,39 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductOrderController extends Controller
 {
-    public function get_payment_methods(){
-        $payment = array("Bkash"=>"Bkash", "Flexiload"=>"Flexiload", "Cash"=>"Cash");
-        return $payment;
-    }
-
-    public function get_payment_numbers(){
-        $data = array("01740050057"=>"01740050057", "0174129990"=>"0174129990", "01711223344"=>"01711223344");
-        return $data;
-    }
     
-    public function get_shipped_by(){
-        $customers = User::select('id','name')->get();
-        $data = array();
-        foreach ($customers as $customer) {
-            $data[$customer->id] = $customer->name;
-        }
-        return $data;
-    }
-
-    public function get_shipping_method(){
-        $data = array("SAP"=>"SAP", "Kortoa"=>"Kortoa", "Pathao"=>"Pathao");
-        return $data;
-    }
-
-    public function get_status_1(){
-        $data = array("pending"=>"pending", "cash"=>"cash", "switch off"=>"switch off", "return"=>"return");
-        return $data;
-    }
-
-    public function get_status_2(){
-        $data = array("cash confirm"=>"cash confirm", "return confirm"=>"return confirm");
-        return $data;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -60,14 +28,13 @@ class ProductOrderController extends Controller
             
             return datatables()
             ->of($orders)
-            ->addColumn('action',
-                function ($orders) {
-                    $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i> edit </a>';
-                    $html .='<a href="' . route('payments.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> payment  </a>';
-                    $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
-                    return $html;
-                }
-            )
+            ->addColumn('action',function ($orders) {
+                $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i> edit </a>';
+                $html .='<a href="' . route('payments.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> payment  </a>';
+                $html .='<a href="' . route('o_products.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> products  </a>';
+                $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
+                return $html;
+            })
             ->filter(function ($query) use ($request) {
                 if ($request->has('from') && $request->has('to')) {
                     $start = date("Y-m-d",strtotime($request->input('from')));
@@ -194,6 +161,46 @@ class ProductOrderController extends Controller
         Order::destroy($id);
 
         return view('productorder.index')->with('flash_message', 'Order deleted!');
+    }
+
+    public function get_payment_methods()
+    {
+        $payment = array("Bkash"=>"Bkash", "Flexiload"=>"Flexiload", "Cash"=>"Cash");
+        return $payment;
+    }
+
+    public function get_payment_numbers()
+    {
+        $data = array("01740050057"=>"01740050057", "0174129990"=>"0174129990", "01711223344"=>"01711223344");
+        return $data;
+    }
+    
+    public function get_shipped_by()
+    {
+        $customers = User::select('id','name')->get();
+        $data = array();
+        foreach ($customers as $customer) {
+            $data[$customer->id] = $customer->name;
+        }
+        return $data;
+    }
+
+    public function get_shipping_method()
+    {
+        $data = array("SAP"=>"SAP", "Kortoa"=>"Kortoa", "Pathao"=>"Pathao");
+        return $data;
+    }
+
+    public function get_status_1()
+    {
+        $data = array("pending"=>"pending", "cash"=>"cash", "switch off"=>"switch off", "return"=>"return");
+        return $data;
+    }
+
+    public function get_status_2()
+    {
+        $data = array("cash confirm"=>"cash confirm", "return confirm"=>"return confirm");
+        return $data;
     }
 
 }

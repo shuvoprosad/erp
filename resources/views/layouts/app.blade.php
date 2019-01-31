@@ -191,10 +191,13 @@
                                         <a href="{{ route('users.index') }}">User</a>
                                     </li>
                                     <li>
-                                    <a href="{{ route('salaries.index') }}">Salary</a>
+                                        <a href="{{ route('usertype.index') }}">User Type</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('roles.index') }}">Role</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('salaries.index') }}">Salary</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('permissions.index') }}">Permission</a>
@@ -202,10 +205,25 @@
                                     <li>
                                         <a href="{{ route('customers.index') }}">Customers</a>
                                     </li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="fe-folder-plus"></i>
+                                    <span> Accounts </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level nav" aria-expanded="false">
                                     <li>
-                                        <a href="">Accounts</a>
+                                        <a href="">Payments</a>
                                     </li>
-                                    
+                                    <li>
+                                        <a href="">Payment type</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Payment number</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li>

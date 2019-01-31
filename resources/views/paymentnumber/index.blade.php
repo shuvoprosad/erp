@@ -46,6 +46,7 @@
                                             @endforeach
                                         </td>
                                         <td>
+                                            <a href="{{ route('roles.show',$item->id) }}" title="View role"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ route('roles.edit',$item->id) }}" title="Edit role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                             {!! Form::open([
                                                 'method'=>'DELETE',

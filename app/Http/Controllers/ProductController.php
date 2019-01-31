@@ -6,10 +6,21 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Product;
+use App\ProductType;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('permission:product.create', ['only' => ['create','store']]);
+
+        $this->middleware('permission:product.edit', ['only' => ['edit','update']]);
+
+        $this->middleware('permission:product.delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,16 +30,17 @@ class ProductController extends Controller
     {
         //$products = Product::select(['id', 'name', 'price', 'available']);
         
-        if (request()->ajax()|| 1==3) 
+        if (request()->ajax()|| 1==2) 
         {
-            $products = Product::query(['id', 'name', 'price', 'units_in_stock']);
+            $products = Product::with('product_type')->select('products.*');
+            //dd($products);
             
             return datatables()
             ->of($products)
             ->addColumn('action',
                 function ($products) {
-                    $html ='<a href="' . route('products.edit', ['id'=>$products->id]) . '" class="btn btn-primary btn-rounded waves-effect waves-light"> <i class="glyphicon glyphicon-edit"></i> edit </a>';
-                    $html .='<a href="' . route('products.destroy', ['id'=>$products->id]) . '" class="btn btn-danger btn-rounded waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
+                    $html ='<a href="' . route('products.edit', ['id'=>$products->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="glyphicon glyphicon-edit"></i> edit </a>';
+                    $html .='<a href="' . route('products.destroy', ['id'=>$products->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
                     return $html;
                 }
             )
@@ -88,8 +100,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $productTypes = $this->get_product_types();
 
-        return view('product.edit', compact('product'));
+        return view('product.edit', compact('product','productTypes'));
     }
 
     /**
@@ -102,12 +115,31 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $requestData = $request->all();
-        
         $product = Product::findOrFail($id);
-        $product->update($requestData);
+        if(!is_null($request->type))
+        $product->type = $request->type;
 
+        if(!is_null($request->name))
+        $product->name = $request->name;
+
+        if(!is_null($request->description))
+        $product->description = $request->description;
+
+        if(!is_null($request->sku))
+        $product->sku = $request->sku;
+
+        if(!is_null($request->buy_price))
+        $product->buy_price = $request->buy_price;
+
+        if(!is_null($request->sell_price))
+        $product->sell_price = $request->sell_price;
+
+        if(!is_null($request->units_in_stock))
+        $product->units_in_stock = $request->units_in_stock;
+
+        if(!is_null($request->note))
+        $product->note = $request->note;
+        $product->save();
         return view('product.index')->with('flash_message', 'Product updated!');
     }
 
@@ -123,5 +155,15 @@ class ProductController extends Controller
         Product::destroy($id);
 
         return view('product.index')->with('flash_message', 'Product deleted!');
+    }
+
+    public function get_product_types()
+    {
+        $types = ProductType::select('id','name')->get();
+        $data = array();
+        foreach ($types as $type) {
+            $data[$type->id] = $type->name;
+        }
+        return $data;
     }
 }

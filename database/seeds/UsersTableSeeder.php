@@ -31,6 +31,12 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('0574'),
         ]);
 
+        DB::table('users')->insert([
+            'name' => 'abdur rahim',
+            'email' => 'rahim@gmail.com',
+            'password' => bcrypt('0574'),
+        ]);
+
         $admin_role = Role::create([ 
             'name' => 'super_admin',
             'guard_name' => 'web'

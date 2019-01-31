@@ -10,9 +10,9 @@
             
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Create New user</div>
+                    <div class="card-header">Create New role</div>
                     <div class="card-body">
-                        <a href="{{ route('users.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('roles.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -24,9 +24,9 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['route' => 'users.store', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['route' => 'roles.store', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        @include ('user.form', ['formMode' => 'create'])
+                        @include ('role.form', ['formMode' => 'create'])
 
                         {!! Form::close() !!}
 
@@ -44,7 +44,7 @@
 @section('javascript_end')
 <script>
     $(document).ready(function() {
-        $('#roles').select2();
+        $('#permissions').select2();
     });
 </script>
 @endsection

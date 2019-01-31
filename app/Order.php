@@ -35,4 +35,9 @@ class Order extends Model
         return $this->hasMany('App\Payment', 'order_id', 'id');
     }
 
+    public function products()
+    {
+        return $this->hasMany('App\OrderProducts', 'order_id', 'id');
+    }
+
 }

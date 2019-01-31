@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 use DataTables;
 use App\User;
+use App\UserType;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -16,6 +17,12 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('permission:user.create', ['only' => ['create','store']]);
+
+        $this->middleware('permission:user.edit', ['only' => ['edit','update']]);
+
+        $this->middleware('permission:user.delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -26,7 +33,7 @@ class UserController extends Controller
     {
         if (request()->ajax() || 1==2) 
         {
-            $users = User::query();
+            $users = User::with('user_type')->select('users.*');
             return DataTables()
             ::of($users)
             ->addColumn('action',
@@ -49,7 +56,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->get_all_role_names();
-        return view('user.create',compact('roles'));
+        $types = $this->get_all_usertype();
+        return view('user.create',compact('roles','types'));
     }
 
     /**
@@ -98,7 +106,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('user_type')->findOrFail($id);
 
         return view('user.show', compact('user'));
     }
@@ -112,11 +120,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('user_type')->findOrFail($id);
         $oldRoles = $user->getRoleNames();
         $roles = $this->get_all_role_names();
+        $types = $this->get_all_usertype();
         //dd($roles);
-        return view('user.edit', compact('user','roles','oldRoles'));
+        return view('user.edit', compact('user','roles','oldRoles','types'));
     }
 
     /**
@@ -142,13 +151,13 @@ class UserController extends Controller
         if(!is_null($request->password))
         $user->password = Hash::make($request->password);
 
-        if(!is_null($request->name))
+        if(!is_null($request->mobile))
         $user->mobile = $request->mobile;
 
-        if(!is_null($request->name))
+        if(!is_null($request->address))
         $user->address = $request->address;
 
-        if(!is_null($request->name))
+        if(!is_null($request->type))
         $user->type = $request->type;
         $user->save();
 
@@ -177,6 +186,15 @@ class UserController extends Controller
         $roles = Role::get()->pluck('name','name');
         //$roles = Role::get()->pluck('name')->toArray();
         return $roles;
+    }
+
+    public function get_all_usertype(){
+        $types = UserType::select('id','name')->get();
+        $data = array();
+        foreach ($types as $type) {
+            $data[$type->id] = $type->name;
+        }
+        return $data;
     }
 
 }

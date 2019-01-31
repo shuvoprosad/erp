@@ -86,61 +86,44 @@ $(function() {
         }
     } );
 
-
-    let table = $('#table').DataTable({
+    let table = $('#table').DataTable
+    ({
         processing: false,
         serverSide: true,
         scrollX: true,
         ajax: '{{ route('users.index') }}',
-        columns: [
-                { data: 'id', name: 'id' },
-                @can('user.name.view')
-                    { data: 'name', name: 'name' },
-                @endcan
-                @can('user.email.view')
-                    { data: 'email', name: 'email' },
-                @endcan
-                @can('user.mobile.view')
-                    { data: 'mobile', name: 'mobile' },
-                @endcan
-                @can('user.address.view')
-                    { data: 'address', name: 'address' },
-                @endcan
-                @can('user.type.view')
-                { data: 'type', name: 'type' },
-                @endcan
-                { data: 'action', name: 'action', orderable: false, searchable: false}
-            ],
-        // initComplete: function () {
-        //     this.api().columns().every(function () {
-        //         let column = this;
-        //         console.log(column.data());
-        //         let input = document.createElement("input");
-        //         $(input).appendTo($(column.footer()).empty())
-        //         .on('change', function () {
-        //             column.search($(this).val(), false, false, true).draw();
-        //         });
-        //     });
-        //     // this.api().columns([1,2,3,4,5]).every(function () {
-        //     //     let column = this;
-        //     //     let input = document.createElement("input");
-        //     //     $(input).appendTo($(column.footer()).empty())
-        //     //     .on('change', function () {
-        //     //         column.search($(this).val(), false, false, true).draw();
-        //     //     });
-        //     // });
-        // },
-        drawCallback: function () {
+        columns: 
+        [
+            { data: 'id', name: 'id' },
+            @can('user.name.view')
+            { data: 'name', name: 'name' },
+            @endcan
+            @can('user.email.view')
+            { data: 'email', name: 'email' },
+            @endcan
+            @can('user.mobile.view')
+            { data: 'mobile', name: 'mobile' },
+            @endcan
+            @can('user.address.view')
+                { data: 'address', name: 'address' },
+            @endcan
+            @can('user.type.view')
+            { data: 'user_type.name', name: 'user_type.name' },
+            @endcan
+            { data: 'action', name: 'action', orderable: false, searchable: false}
+        ],
+        
+        drawCallback: function () 
+        {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }
     });
-    table.columns().every( function () {
+    table.columns().every( function () 
+    {
         var that = this;
         $( 'input', this.footer() ).on( 'keyup change', function () {
             if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
+                that.search( this.value ).draw();
             }
         } );
     } );

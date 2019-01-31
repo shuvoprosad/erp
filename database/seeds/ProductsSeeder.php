@@ -13,7 +13,7 @@ class ProductsSeeder extends Seeder
     public function run()
     {
         Product::create([ 
-            'category_id' => '1',
+            'type' => '1',
             'name' => 'Nokia 2',
             'description' => 'Nokia mobile is the ...',
             'sku' => 'MBH-02',
@@ -24,7 +24,7 @@ class ProductsSeeder extends Seeder
             'note' => 'high in demand',
         ]);
         Product::create([ 
-            'category_id' => '1',
+            'type' => '1',
             'name' => 'Nokia 2',
             'description' => 'Nokia mobile is the ...',
             'sku' => 'MBH-02',
@@ -35,7 +35,7 @@ class ProductsSeeder extends Seeder
             'note' => 'high in demand',
         ]);
         Product::create([ 
-            'category_id' => '1',
+            'type' => '1',
             'name' => 'Samsung s8',
             'description' => 'Samsung mobile is the ...',
             'sku' => 'SAM-04',
@@ -46,7 +46,7 @@ class ProductsSeeder extends Seeder
             'note' => 'high in demand',
         ]);
         Product::create([ 
-            'category_id' => '1',
+            'type' => '1',
             'name' => 'Iphone xs',
             'description' => 'Apple ...',
             'sku' => 'IPO-02',

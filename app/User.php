@@ -31,5 +31,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function user_type()
+    {
+        return $this->belongsTo('App\UserType', 'type', 'id');
+    }
     
 }

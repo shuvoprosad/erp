@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has('customer_id') ? 'has-error' : ''}}">
     {!! Form::label('customer_id', 'Customer', ['class' => 'control-label']) !!}
-    {!! Form::select('customer_id',$customer , old('customer')??isset($productlead)?$productlead->customer:null, ['class' => 'form-control', 'required' => 'required', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('customer_id', $customer, old('customer_id'), ['class' => 'form-control', 'required' => 'required', 'data-toggle'=>'select2']) !!}
     {!! $errors->first('customer_id', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('counter') ? 'has-error' : ''}}">

@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware([ 'auth'])->group(function () {
     Route::resource('users', 'UserController');
+    Route::resource('usertype', 'UserTypeController');
     Route::resource('customers', 'CustomerController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('roles', 'RoleController');
@@ -34,6 +35,16 @@ Route::middleware([ 'auth'])->group(function () {
         Route::patch('{id}/update', ['as' => 'update', 'uses' => 'PaymentController@update']);
         Route::delete('{id}/destroy', ['as' => 'destroy', 'uses' => 'PaymentController@store']);
     });
+    Route::group(['prefix'=>'orderedproducts','as'=>'o_products.'], function(){
+        Route::get('/{order_id}', ['as' => 'index', 'uses' => 'OrderedProductsController@index']);
+        Route::get('create/{order_id}', ['as' => 'create', 'uses' => 'OrderedProductsController@create']);
+        Route::post('store/{order_id}', ['as' => 'store', 'uses' => 'OrderedProductsController@store']);
+        Route::get('{id}/edit', ['as' => 'edit', 'uses' => 'OrderedProductsController@edit']);
+        Route::patch('{id}/update', ['as' => 'update', 'uses' => 'OrderedProductsController@update']);
+        Route::delete('{id}/destroy', ['as' => 'destroy', 'uses' => 'OrderedProductsController@store']);
+    });
+    Route::resource('paymenttype', 'PaymentTypeController');
+    Route::resource('paymentnumber', 'PaymentNumberController');
     Route::resource('salaries', 'SalaryController');
 });
 

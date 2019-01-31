@@ -38,7 +38,6 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>
-                                            <a href="{{ route('permissions.show',$item->id) }}" title="View permission"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ route('permissions.edit',$item->id) }}" title="Edit permission"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
 
                                             <form method="POST" action="{{ route('permissions.destroy',$item->id) }}" accept-charset="UTF-8" style="display:inline">
