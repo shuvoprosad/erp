@@ -135,4 +135,11 @@ class CustomerController extends Controller
 
         return view('customer.index')->with('flash_message', 'no deleted!');
     }
+
+    public function search($query)
+    {
+        $data = Customer::where('mobile',$query)->get()->first();
+        
+        return $data->toJson();
+    }
 }

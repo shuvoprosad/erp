@@ -15,16 +15,22 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date');
+            $table->unsignedInteger('agent_id')->nullable();
             $table->unsignedInteger('customer_id')->nullable();
-            $table->unsignedInteger('agent_id');
             $table->string('counter')->nullable();
+            $table->integer('offer_price')->nullable();
             $table->string('status_0')->nullable();
+            $table->text('note_1')->nullable();
             $table->unsignedInteger('shipped_by')->nullable();
             $table->string('shipping_method')->nullable();
+            $table->integer('last_balance')->nullable();
+            $table->string('last_number')->nullable();
+            $table->string('cn')->nullable();
             $table->string('status_1')->nullable();
-            $table->dateTime('date_status_1')->nullable();
             $table->string('status_2')->nullable();
-            $table->dateTime('date_status_2')->nullable();
+            $table->string('note_2')->nullable();
+            $table->text('note_extension')->nullable();
             $table->timestamps();
         });
     }

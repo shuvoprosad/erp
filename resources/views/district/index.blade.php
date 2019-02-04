@@ -8,22 +8,9 @@
                 <div class="card">
                     <div class="card-header">Role</div>
                     <div class="card-body">
-                        <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm" title="Add New role">
+                        <a href="{{ route('address.create') }}" class="btn btn-success btn-sm" title="Add New role">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
-
-                        {!! Form::open(['method' => 'GET', 'url' => '', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        {!! Form::close() !!}
-
-                        <br/>
                         <br/>
                         <div class="table-responsive">
                             <table class="table table-borderless">
@@ -31,26 +18,19 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Permissions</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($role as $item)
+                                @foreach($addresses as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>
-                                            @foreach($item->permissions as $permission) 
-                                            {{ $permission->name}}
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('roles.show',$item->id) }}" title="View role"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ route('roles.edit',$item->id) }}" title="Edit role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            <a href="{{ route('address.edit',$item->id) }}" title="Edit role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                             {!! Form::open([
                                                 'method'=>'DELETE',
-                                                'route' => ['roles.destroy', $item->id],
+                                                'route' => ['address.destroy', $item->id],
                                                 'style' => 'display:inline'
                                             ]) !!}
                                                 {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
@@ -65,7 +45,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $role->appends(['search' => Request::get('search')])->render() !!} </div>
+                            <div class="pagination-wrapper"> {!! $addresses->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>

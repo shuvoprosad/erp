@@ -6,10 +6,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Salary;
+use App\SalaryPayment;
 use App\User;
 use Illuminate\Http\Request;
 
-class SalaryController extends Controller
+class SalaryPaymentController extends Controller
 {
     public function get_user(){
         $users = User::select('id','name')->get();
@@ -27,24 +28,23 @@ class SalaryController extends Controller
     public function index(Request $request)
     {
         //$products = Salary::select(['id', 'name', 'price', 'available']);
-        
+        $salary_id = $request->salary_id;
         if (request()->ajax()|| 1==9) 
         {
-            $salaries = Salary::with('user')->select('salaries.*');
+            $salaries = SalaryPayment::where('salary_id',$salary_id)->get();
             
             return datatables()
             ->of($salaries)
             ->addColumn('action',
                 function ($salaries) {
                     $html ='<a href="' . route('salaries.edit', ['id'=>$salaries->id]) . '" class="btn btn-primary btn-rounded waves-effect waves-light"> <i class="glyphicon glyphicon-edit"></i> edit </a>';
-                    $html .='<a href="' . route('s_payment.index', ['salary_id'=>$salaries->id]) . '" class="btn btn-success btn-rounded waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-money"></i> pay  </a>';
                     $html .='<a href="' . route('salaries.destroy', ['id'=>$salaries->id]) . '" class="btn btn-danger btn-rounded waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
                     return $html;
                 }
             )
             ->make(true);
         }
-        return view('salary.index');
+        return view('salarypayment.index',compact('salary_id'));
     }
 
     /**
@@ -52,10 +52,11 @@ class SalaryController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        $users = $this->get_user();
-        return view('salary.create',compact('users'));
+        $salary_id = $request->salary_id;
+        $status = $this->get_paymeny_status();
+        return view('salarypayment.create',compact('salary_id','status'));
     }
 
     /**
@@ -159,5 +160,11 @@ class SalaryController extends Controller
         Salary::destroy($id);
 
         return view('salary.index')->with('flash_message', 'Salary deleted!');
+    }
+
+    public function get_paymeny_status()
+    {
+        $data = array("advance"=>"advance", "full"=>"full", "partial"=>"partial");
+        return $data;
     }
 }

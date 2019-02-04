@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link href="{{ asset('assets/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css">
+
 @endsection
 
 @section('content')
@@ -13,9 +13,9 @@
                     <div class="card-header">Create New role</div>
                     <div class="card-body">
                         <br />
-                        {!! Form::open(['route' => 'paymentnumber.store', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['route' => 'paymentmethod.store', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        @include ('paymentnumber.form', ['formMode' => 'create'])
+                        @include ('paymentmethod.form', ['formMode' => 'create'])
 
                         {!! Form::close() !!}
                     </div>
@@ -26,13 +26,9 @@
 @endsection
 
 @section('javascript')
-<script src="{{ asset('assets/libs/select2/select2.min.js')}}"></script>
+
 @endsection
 
 @section('javascript_end')
-<script>
-    $(document).ready(function() {
-        $('#permissions').select2();
-    });
-</script>
+
 @endsection

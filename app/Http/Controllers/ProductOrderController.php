@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use App\Customer;
 use App\User;
+use App\District;
+use App\Status0;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,9 +57,16 @@ class ProductOrderController extends Controller
      */
     public function create()
     {
-        $status = $this->get_status();
-        $customer = $this->get_customer();
-        return view('productorder.create',compact('status','customer'));
+        $addresses = $this->get_addresses();
+        $payment_type = $this->get_payment_methods();
+        $Payment_number = $this->get_payment_numbers();
+        $shipped_by = $this->get_shipped_by();
+        $shipping_method = $this->get_shipping_method();
+        $status_0 = $this->get_status_0();
+        $status_1 = $this->get_status_1();
+        $status_2 = $this->get_status_2();
+
+        return view('productorder.create', compact('addresses','payment_type','Payment_number','shipped_by','shipping_method','status_0','status_1','status_2'));
     }
 
     /**
@@ -185,9 +194,25 @@ class ProductOrderController extends Controller
         return $data;
     }
 
+    public function get_customer()
+    {
+        $customers = User::select('id','name')->get();
+        $data = array();
+        foreach ($customers as $customer) {
+            $data[$customer->id] = $customer->name;
+        }
+        return $data;
+    }
+
     public function get_shipping_method()
     {
         $data = array("SAP"=>"SAP", "Kortoa"=>"Kortoa", "Pathao"=>"Pathao");
+        return $data;
+    }
+
+    public function get_status_0()
+    {
+        $data = Status0::get()->pluck('name','name');
         return $data;
     }
 
@@ -201,6 +226,13 @@ class ProductOrderController extends Controller
     {
         $data = array("cash confirm"=>"cash confirm", "return confirm"=>"return confirm");
         return $data;
+    }
+
+    public function get_addresses()
+    {
+        $data = District::get()->pluck('name','name');
+        return $data;
+
     }
 
 }

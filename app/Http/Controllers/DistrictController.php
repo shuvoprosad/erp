@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\PaymentNumbers;
-use App\PaymentMethod;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
-class PaymentNumberController extends Controller
+use Illuminate\Http\Request;
+
+use App\District;
+
+class DistrictController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +18,16 @@ class PaymentNumberController extends Controller
      */
     public function index(Request $request)
     {
+        $keyword = $request->get('search');
         $perPage = 25;
 
-        $paymentnumbers = PaymentNumbers::with('paymentmethod')->latest()->paginate($perPage);
+        if (!empty($keyword)) {
+            $addresses = District::latest()->paginate($perPage);
+        } else {
+            $addresses = District::latest()->paginate($perPage);
+        }
 
-
-        return view('paymentnumber.index', compact('paymentnumbers'));
+        return view('district.index', compact('addresses'));
     }
 
     /**
@@ -30,8 +37,7 @@ class PaymentNumberController extends Controller
      */
     public function create()
     {
-        $paymentmethods = $this->get_paymentmethods();
-        return view('paymentnumber.create',compact('paymentmethods'));
+        return view('district.create');
     }
 
     /**
@@ -45,9 +51,9 @@ class PaymentNumberController extends Controller
     {
         
         $requestData = $request->all();
-        PaymentNumbers::create($requestData);
+        $role=District::create($requestData);
 
-        return redirect('paymentnumber')->with('flash_message', 'Role added!');
+        return redirect('address')->with('flash_message', 'Role added!');
     }
 
     /**
@@ -71,9 +77,8 @@ class PaymentNumberController extends Controller
      */
     public function edit($id)
     {
-        $paymentnumber = PaymentNumbers::findOrFail($id);
-        $paymentmethods = $this->get_paymentmethods();
-        return view('paymentnumber.edit', compact('paymentnumber','paymentmethods'));
+        $address = District::findOrFail($id);
+        return view('district.edit', compact('address'));
     }
 
     /**
@@ -89,10 +94,10 @@ class PaymentNumberController extends Controller
         
         $requestData = $request->all();
         
-        $paymenttype = PaymentNumbers::findOrFail($id);
-        $paymenttype->update($requestData);
+        $district = District::findOrFail($id);
+        $district->update($requestData);
 
-        return redirect('paymentnumber')->with('flash_message', 'Role updated!');
+        return redirect('address')->with('flash_message', 'Role updated!');
     }
 
     /**
@@ -104,18 +109,8 @@ class PaymentNumberController extends Controller
      */
     public function destroy($id)
     {
-        PaymentNumbers::destroy($id);
+        Role::destroy($id);
 
-        return redirect('paymentnumber')->with('flash_message', 'Role deleted!');
-    }
-
-    public function get_paymentmethods()
-    {
-        $items = PaymentMethod::select('id','name')->get();
-        $data = array();
-        foreach ($items as $item) {
-            $data[$item->id] = $item->name;
-        }
-        return $data;
+        return redirect('address')->with('flash_message', 'Role deleted!');
     }
 }

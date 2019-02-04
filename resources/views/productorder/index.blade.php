@@ -4,6 +4,7 @@
 <link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
@@ -12,6 +13,11 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('productorders.create') }}" class="btn btn-success waves-effect waves-light"> <i class="fa fa-"></i> Create order  </a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
@@ -94,26 +100,33 @@ $(function() {
         serverSide: true,
         scrollX: true,
         responsive: false,
-        ajax: {
+        ajax: 
+        {
             url:'{{ route('productorders.index') }}',
             data: function (d) {
                 d.from = $('input[name=from]').val();
                 d.to = $('input[name=to]').val();
             }
         },
-        columns: [
-                { data: 'id', name: 'orders.id' },
-                { data: 'customer.name', name: 'customer.name' },
-                { data: 'customer.mobile', name: 'customer.mobile' },
-                { data: 'customer.address', name: 'customer.address' },
-                { data: 'shipped_by.name', name: 'shipped_by.name' },
-                { data: 'shipping_method', name: 'orders.shipping_method' },
-                { data: 'status_1', name: 'orders.status_1' },
-                { data: 'date_status_1', name: 'orders.date_status_1' },
-                { data: 'status_2', name: 'orders.status_2' },
-                { data: 'date_status_2', name: 'orders.date_status_2' },
-                { data: 'action', name: 'action', orderable: false, searchable: false}
-            ],
+        columns: 
+        [
+            { data: 'id', name: 'orders.id' },
+            { data: 'customer.name', name: 'customer.name' },
+            { data: 'customer.mobile', name: 'customer.mobile' },
+            { data: 'customer.address', name: 'customer.address' },
+            { data: 'shipped_by.name', name: 'shipped_by.name' },
+            { data: 'shipping_method', name: 'orders.shipping_method' },
+            { data: 'status_1', name: 'orders.status_1' },
+            { data: 'date_status_1', name: 'orders.date_status_1' },
+            { data: 'status_2', name: 'orders.status_2' },
+            { data: 'date_status_2', name: 'orders.date_status_2' },
+            { data: 'action', name: 'action', orderable: false, searchable: false}
+        ],
+        dom: 'Bfrtip',
+        buttons: 
+        [
+            'csv', 'excel'
+        ],
         drawCallback: function () {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }

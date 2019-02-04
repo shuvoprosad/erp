@@ -6,9 +6,9 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Role</div>
+                    <div class="card-header">Payment method</div>
                     <div class="card-body">
-                        <a href="{{ route('paymentnumber.create') }}" class="btn btn-success btn-sm" title="Add New role">
+                        <a href="{{ route('paymentmethod.create') }}" class="btn btn-success btn-sm" title="Add New role">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
                         <br/>
@@ -17,22 +17,20 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Payment method</th>
-                                        <th>Number</th>
+                                        <th>Name</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($paymentnumbers as $item)
+                                @foreach($paymentmethods as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->paymentmethod->name }}</td>
-                                        <td>{{ $item->mobile }}</td>
+                                        <td>{{ $item->name }}</td>
                                         <td>
-                                            <a href="{{ route('paymentnumber.edit',$item->id) }}"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                            <a href="{{ route('paymentmethod.edit',$item->id) }}" title="Edit role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                             {!! Form::open([
                                                 'method'=>'DELETE',
-                                                'route' => ['paymentnumber.destroy', $item->id],
+                                                'route' => ['paymentmethod.destroy', $item->id],
                                                 'style' => 'display:inline'
                                             ]) !!}
                                                 {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
@@ -47,7 +45,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $paymentnumbers->appends(['search' => Request::get('search')])->render() !!} </div>
+                            <div class="pagination-wrapper"> {!! $paymentmethods->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>

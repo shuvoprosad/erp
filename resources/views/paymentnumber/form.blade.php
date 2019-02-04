@@ -1,15 +1,11 @@
-<div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
-    {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
-    {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+<div class="form-group">
+    {!! Form::label('payment_method_id', 'Payment Method', ['class' => 'control-label']) !!}
+    {!! Form::select('payment_method_id', $paymentmethods, old('payment_method_id'), ['class' => 'form-control'] ) !!}
 </div>
-@foreach ($permissions as $key => $permission)
-<div class="custom-control custom-checkbox {{ $errors->has('permissions') ? 'has-error' : ''}}">
-    {!! Form::checkbox('permissions[]', $permission, isset($role)?(in_array($permission, $role->permissions->pluck('name')->toArray())?true:null):null, ['class' => 'custom-control-input', 'id' => $permission] ) !!}
-    {!! Form::label($permission, $permission, ['class' => 'custom-control-label']) !!}
-    {!! $errors->first('permissions', '<p class="help-block">:message</p>') !!}
+<div class="form-group">
+    {!! Form::label('mobile', 'Number', ['class' => 'control-label']) !!}
+    {!! Form::text('mobile', null, ['class' => 'form-control']) !!}
 </div>
-@endforeach
 
 <div class="form-group">
     {!! Form::submit($formMode === 'edit' ? 'Update' : 'Create', ['class' => 'btn btn-primary']) !!}

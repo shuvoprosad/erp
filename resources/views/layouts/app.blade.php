@@ -191,39 +191,15 @@
                                         <a href="{{ route('users.index') }}">User</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('usertype.index') }}">User Type</a>
-                                    </li>
-                                    <li>
                                         <a href="{{ route('roles.index') }}">Role</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('salaries.index') }}">Salary</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('permissions.index') }}">Permission</a>
-                                    </li>
-                                    <li>
                                         <a href="{{ route('customers.index') }}">Customers</a>
                                     </li>
 
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="fe-folder-plus"></i>
-                                    <span> Accounts </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level nav" aria-expanded="false">
-                                    <li>
-                                        <a href="">Payments</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Payment type</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Payment number</a>
-                                    </li>
                                 </ul>
                             </li>
                             <li>
@@ -247,21 +223,28 @@
                             <li>
                                 <a href="javascript: void(0);">
                                     <i class="fe-folder-plus"></i>
-                                    <span> Services </span>
+                                    <span> Drop downs </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
                                     <li>
-                                        <a href="">Inventory</a>
+                                    <a href="{{ route('address.index')}}">Address</a>
                                     </li>
                                     <li>
-                                        <a href="">Leads</a>
+                                        <a href="">Payments</a>
                                     </li>
                                     <li>
-                                        <a href="">Orders</a>
+                                        <a href="{{ route('paymentmethod.index') }}">Payment methods</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('paymentnumber.index') }}">Payment number</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('usertype.index') }}">User Type</a>
                                     </li>
                                 </ul>
                             </li>
+
                         </ul>
                         
                     </div>

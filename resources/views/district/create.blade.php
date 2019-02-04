@@ -10,14 +10,16 @@
             
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Create New role</div>
+                    <div class="card-header">Create address</div>
                     <div class="card-body">
                         <br />
-                        {!! Form::open(['route' => 'paymentnumber.store', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        @include ('paymentnumber.form', ['formMode' => 'create'])
+                        {!! Form::open(['route' => 'address.store', 'class' => 'form-horizontal', 'files' => true]) !!}
+
+                        @include ('district.form', ['formMode' => 'create'])
 
                         {!! Form::close() !!}
+
                     </div>
                 </div>
             </div>
