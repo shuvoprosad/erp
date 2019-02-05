@@ -41,11 +41,19 @@
 </div>
 <div class="form-group">
     {!! Form::label('shipped_by', 'Shipped by', ['class' => 'control-label']) !!}
-    {!! Form::select('shipped_by',$shipped_by , old('shipped_by')??isset($productorder)?$productorder->shipped_by:null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('shipped_by',$shipped_by , old('shipped_by'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('shipping_method', 'Shipping method', ['class' => 'control-label']) !!}
-    {!! Form::select('shipping_method',$shipping_method , old('shipping_method')??isset($productorder)?$productorder->shipping_method:null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('shipping_method',$shipping_methods , old('shipping_method'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+</div>
+<div class="form-group">
+    {!! Form::label('payment_method', 'Payment method', ['class' => 'control-label']) !!}
+    {!! Form::select('payment_method',$payment_methods , old('shipping_method'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+</div>
+<div class="form-group">
+    {!! Form::label('payment_number', 'Payment number', ['class' => 'control-label']) !!}
+    {!! Form::select('payment_number',$payment_methods , old('shipping_method'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
 </div>
 <div class="form-group">
         {!! Form::label('cn', 'CN', ['class' => 'control-label']) !!}
@@ -61,15 +69,15 @@
 </div>
 <div class="form-group">
     {!! Form::label('status_1', 'Status 1', ['class' => 'control-label']) !!}
-    {!! Form::select('status_1',$status_1 , old('status_1')??isset($productorder)?$productorder->status_1:null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('status_1',$status_1 , old('status_1'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('status_2', 'Status 2', ['class' => 'control-label']) !!}
-    {!! Form::select('status_2',$status_2 , old('status_2')??isset($productorder)?$productorder->status_2:null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('status_2',$status_2 , old('status_2'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('note_2', 'Note 2', ['class' => 'control-label']) !!}
-    {!! Form::select('note_2',$status_2 , old('status_2')??isset($productorder)?$productorder->status_2:null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('note_2',$status_2 , old('status_2'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('note_extension', 'Note extension', ['class' => 'control-label']) !!}

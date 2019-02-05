@@ -10,6 +10,10 @@ use App\Customer;
 use App\User;
 use App\District;
 use App\Status0;
+use App\Status1;
+use App\Status2;
+use App\PaymentMethod;
+use App\PaymentNumbers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,15 +62,14 @@ class ProductOrderController extends Controller
     public function create()
     {
         $addresses = $this->get_addresses();
-        $payment_type = $this->get_payment_methods();
-        $Payment_number = $this->get_payment_numbers();
+        $payment_methods = $this->get_payment_methods();
         $shipped_by = $this->get_shipped_by();
-        $shipping_method = $this->get_shipping_method();
+        $shipping_methods = $this->get_shipping_method();
         $status_0 = $this->get_status_0();
         $status_1 = $this->get_status_1();
         $status_2 = $this->get_status_2();
 
-        return view('productorder.create', compact('addresses','payment_type','Payment_number','shipped_by','shipping_method','status_0','status_1','status_2'));
+        return view('productorder.create', compact('addresses','payment_methods','shipped_by','shipping_methods','status_0','status_1','status_2'));
     }
 
     /**
@@ -113,14 +116,13 @@ class ProductOrderController extends Controller
     public function edit($id)
     {
         $payment_type = $this->get_payment_methods();
-        $Payment_number = $this->get_payment_numbers();
         $shipped_by = $this->get_shipped_by();
         $shipping_method = $this->get_shipping_method();
         $status_1 = $this->get_status_1();
         $status_2 = $this->get_status_2();
         $productorder = Order::findOrFail($id);
 
-        return view('productorder.edit', compact('productorder','payment_type','Payment_number','shipped_by','shipping_method','status_1','status_2'));
+        return view('productorder.edit', compact('productorder','payment_type','shipped_by','shipping_method','status_1','status_2'));
     }
 
     /**
@@ -174,15 +176,14 @@ class ProductOrderController extends Controller
 
     public function get_payment_methods()
     {
-        $payment = array("Bkash"=>"Bkash", "Flexiload"=>"Flexiload", "Cash"=>"Cash");
-        return $payment;
-    }
-
-    public function get_payment_numbers()
-    {
-        $data = array("01740050057"=>"01740050057", "0174129990"=>"0174129990", "01711223344"=>"01711223344");
+        $items = PaymentMethod::select('id','name')->get();
+        $data = array();
+        foreach ($items as $item) {
+            $data[$item->id] = $item->name;
+        }
         return $data;
     }
+
     
     public function get_shipped_by()
     {
@@ -218,13 +219,13 @@ class ProductOrderController extends Controller
 
     public function get_status_1()
     {
-        $data = array("pending"=>"pending", "cash"=>"cash", "switch off"=>"switch off", "return"=>"return");
+        $data = Status1::get()->pluck('name','name');
         return $data;
     }
 
     public function get_status_2()
     {
-        $data = array("cash confirm"=>"cash confirm", "return confirm"=>"return confirm");
+        $data = Status2::get()->pluck('name','name');
         return $data;
     }
 

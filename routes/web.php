@@ -56,6 +56,7 @@ Route::middleware([ 'auth'])->group(function () {
     });
     Route::resource('paymentmethod', 'PaymentMethodController');
     Route::resource('paymentnumber', 'PaymentNumberController');
+    Route::get('paymentnumber/search/{query}', ['as' => 'paymentnumber.search', 'uses' => 'PaymentNumberController@get_payment_numbers']);
     Route::resource('status0', 'Status0Controller');
     Route::resource('status1', 'Status1Controller');
     Route::resource('status2', 'Status2Controller');

@@ -47,20 +47,22 @@
     });
 
     $('#customer_mobile').keyup(function(){ 
-        var query = $(this).val();
-        var _token = $('input[name="_token"]').val();
-        var url = '{{ route('customers.search',['query'=>'']) }}'+'/'+query;
+        let query = $(this).val();
+        let url = "{{ route('customers.search',['query'=>'']) }}"+"/"+query;
         console.log(url);
         if(query.length > 10){
             console.log(query);
             $.ajax({
                 url:url,
                 method:"GET",
-                data:{query:query, _token:_token},
-                success:function(data){
+                data:
+                {
+                    query:query
+                },
+                success:function(data)
+                {
                     var obj = jQuery.parseJSON(data);
                     $("#customer_name").val(obj.name); 
-
                     if ($('#customer_address').find("option[value='" + obj.address + "']").length) 
                     {
                         $('#customer_address').val(obj.address).trigger('change');
@@ -73,10 +75,35 @@
                         $('#customer_address').append(newOption).trigger('change');
                     } 
                     $("#customer_address_extension").val(obj.address_extension);
+                },
+                error: function (xhr) 
+                {
+                    console.log("error");
                 }
             });
         }
     }); 
+
+    $('#payment_method').change(function()
+    {
+        console.log('ok');
+        let query = $(this).val();
+        let url = "{{ route('paymentnumber.search',['query'=>'']) }}"+"/"+query;
+        $.ajax({
+            url:url,
+            method:"GET",
+            data:{query:query},
+            success:function(data)
+            {
+                let items = jQuery.parseJSON(data);
+                $('#payment_number').empty();
+                $.each(items, function(index, obj)
+                {
+                    $('#payment_number').append('<option value="'+ obj.id +'">'+ obj.mobile +'</option>');
+                })
+            }
+        });
+    });
 
     
 </script>

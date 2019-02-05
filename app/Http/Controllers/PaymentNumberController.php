@@ -118,4 +118,10 @@ class PaymentNumberController extends Controller
         }
         return $data;
     }
+
+    public function get_payment_numbers($query)
+    {
+        $items = PaymentNumbers::where('payment_method_id',$query)->select('id','mobile')->get();
+        return $items->toJson();
+    }
 }

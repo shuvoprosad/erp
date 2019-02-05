@@ -139,7 +139,15 @@ class CustomerController extends Controller
     public function search($query)
     {
         $data = Customer::where('mobile',$query)->get()->first();
-        
+        if(is_null($data))
+        {
+            $data['message'] = 'not found';
+        }
+        else 
+        {
+            $data['message'] = 'found';
+        }
+
         return $data->toJson();
     }
 }
