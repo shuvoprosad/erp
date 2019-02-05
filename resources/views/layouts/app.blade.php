@@ -5,10 +5,10 @@
         <title>Advert </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="" name="description" />
-        <meta content="shuvo prosad sarnakar" name="author" />
+        <meta content="Advert erp" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
         <!-- third party css -->
         @yield('css')
@@ -49,7 +49,6 @@
 
                     <li class="dropdown notification-list">
                         <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
                             <span class="pro-user-name ml-1">
                                 {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i> 
                             </span>
@@ -228,10 +227,19 @@
                                 </a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
                                     <li>
-                                    <a href="{{ route('address.index')}}">Address</a>
+                                        <a href="{{ route('address.index')}}">Address</a>
                                     </li>
                                     <li>
-                                        <a href="">Payments</a>
+                                        <a href="{{ route('status0.index')}}">Status 0</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('status1.index')}}">Status 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('status2.index')}}">Status 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('note2.index')}}">Note 2</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('paymentmethod.index') }}">Payment methods</a>

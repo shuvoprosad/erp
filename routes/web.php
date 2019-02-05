@@ -56,6 +56,10 @@ Route::middleware([ 'auth'])->group(function () {
     });
     Route::resource('paymentmethod', 'PaymentMethodController');
     Route::resource('paymentnumber', 'PaymentNumberController');
+    Route::resource('status0', 'Status0Controller');
+    Route::resource('status1', 'Status1Controller');
+    Route::resource('status2', 'Status2Controller');
+    Route::resource('note2', 'Note2Controller');
     Route::resource('salaries', 'SalaryController');
 });
 

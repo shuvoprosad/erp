@@ -18,5 +18,10 @@ class CustomerTableSeeder extends Seeder
                 'address' => str_random(30),
             ]);
         }
+        DB::table('customers')->insert([
+            'name' => 'shuvo prosad',
+            'mobile' => '01740050057',
+            'address' => 'dhanmondi',
+        ]);
     }
 }
