@@ -25,6 +25,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('shipped_by')->nullable();
             $table->string('shipping_method')->nullable();
             $table->integer('last_balance')->nullable();
+            $table->integer('condition_amount')->nullable();
+            $table->integer('receivable_amount')->nullable();
             $table->string('last_number')->nullable();
             $table->string('cn')->nullable();
             $table->string('status_1')->nullable();

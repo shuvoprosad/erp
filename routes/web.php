@@ -18,7 +18,7 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware([ 'auth'])->group(function () {
+// Route::middleware([ 'auth'])->group(function () {
     Route::resource('users', 'UserController');
     Route::resource('usertype', 'UserTypeController');
     Route::resource('customers', 'CustomerController');
@@ -26,6 +26,7 @@ Route::middleware([ 'auth'])->group(function () {
     Route::resource('permissions', 'PermissionController');
     Route::resource('roles', 'RoleController');
     Route::resource('products', 'ProductController');
+    Route::get('products/search/{query}', ['as' => 'products.search', 'uses' => 'ProductController@search']);
     Route::resource('productleads', 'ProductLeadController');
     Route::resource('productorders', 'ProductOrderController');
     Route::resource('address', 'DistrictController');
@@ -61,7 +62,8 @@ Route::middleware([ 'auth'])->group(function () {
     Route::resource('status1', 'Status1Controller');
     Route::resource('status2', 'Status2Controller');
     Route::resource('note2', 'Note2Controller');
+    Route::resource('counter', 'CounterController');
     Route::resource('salaries', 'SalaryController');
-});
+//});
 
 

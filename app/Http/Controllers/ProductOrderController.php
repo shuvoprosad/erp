@@ -6,12 +6,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Order;
+use App\OrderProducts;
 use App\Customer;
 use App\User;
 use App\District;
 use App\Status0;
 use App\Status1;
 use App\Status2;
+use App\Note2;
 use App\PaymentMethod;
 use App\PaymentNumbers;
 use Illuminate\Http\Request;
@@ -35,10 +37,8 @@ class ProductOrderController extends Controller
             return datatables()
             ->of($orders)
             ->addColumn('action',function ($orders) {
-                $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i> edit </a>';
-                $html .='<a href="' . route('payments.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> payment  </a>';
-                $html .='<a href="' . route('o_products.index', ['order_id'=>$orders->id]) . '" class="btn btn-success waves-effect waves-light"> <i class=" far fa-money-bill-alt "></i> products  </a>';
-                $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i> delete  </a>';
+                $html ='<a href="' . route('productorders.edit', ['id'=>$orders->id]) . '" class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit "></i></a>';
+                $html .='<a href="' . route('productorders.destroy', ['id'=>$orders->id]) . '" class="btn btn-danger waves-effect waves-light" onclick="return confirm("Confirm delete?")"> <i class="fa fa-trash"></i></a>';
                 return $html;
             })
             ->filter(function ($query) use ($request) {
@@ -63,13 +63,15 @@ class ProductOrderController extends Controller
     {
         $addresses = $this->get_addresses();
         $payment_methods = $this->get_payment_methods();
+        $payment_numbers = $this->get_payment_numbers();
         $shipped_by = $this->get_shipped_by();
         $shipping_methods = $this->get_shipping_method();
         $status_0 = $this->get_status_0();
         $status_1 = $this->get_status_1();
         $status_2 = $this->get_status_2();
+        $note_2 = $this->get_note_2();
 
-        return view('productorder.create', compact('addresses','payment_methods','shipped_by','shipping_methods','status_0','status_1','status_2'));
+        return view('productorder.create', compact('addresses','payment_methods','payment_numbers','shipped_by','shipping_methods','status_0','status_1','status_2','note_2'));
     }
 
     /**
@@ -81,15 +83,61 @@ class ProductOrderController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $order = new Order;
-        $order->customer_id = $request->customer_id;
-        $order->agent_id = Auth::id();
-        $order->counter = $request->counter;
-        $order->status_0 = $request->status_0;
-        $order->save();
+            $order = new Order;
+            $existing_customer = Customer::where('mobile',$request->input('customer_mobile'))->get()->first();
+            if(is_null($existing_customer)){
+                $customer = new Customer;
+                $customer->name = $request->input('customer_name');
+                $customer->mobile = $request->input('customer_mobile');
+                $customer->address = $request->input('customer_address');
+                $customer->address_extension = $request->input('customer_address_extension');
+                $customer->save();
+                $order->customer_id = $customer->id;
+            }else {
+                $order->customer_id = $existing_customer->id;
+                $existing_customer->name = $request->input('customer_name');
+                $existing_customer->mobile = $request->input('customer_mobile');
+                $existing_customer->address = $request->input('customer_address');
+                $existing_customer->address_extension = $request->input('customer_address_extension');
+                $existing_customer->save();
+            }
+            $order->agent_id = $request->input('agent_id');
+            $order->date = $request->input('date');
+            $order->counter = $request->input('counter');
+            $order->offer_price = $request->input('offer_price');
+            $order->status_0 = $request->input('status_0');
+            $order->note_1 = $request->input('note_1');
+            $order->shipped_by = $request->input('shipped_by');
+            $order->shipping_method = $request->input('shipping_method');
+            $order->last_balance = $request->input('last_balance');
+            $order->condition_amount = $request->input('condition_amount');
+            $order->receivable_amount = $request->input('receivable_amount');
+            $order->last_number = $request->input('last_number');
+            $order->cn = $request->input('cn');
+            $order->status_1 = $request->input('status_1');
+            $order->status_2 = $request->input('status_2');
+            $order->note_2 = $request->input('note_2');
+            $order->note_extension = $request->input('note_extension');
+            $order->save();
+            
+            $products_id = $request->products_id;
+            $products_quantity = $request->products_quantity;
+            $id_array;
+            preg_match_all('!\d+!', $products_id, $id_array);
+            $q_array;
+            preg_match_all('!\d+!', $products_quantity, $q_array);
+            for($i = 0; $i < count($id_array); $i++) {
+                $obj = new OrderProducts;
+                $obj->order_id = $order->id;
+                $obj->product_id = $id_array[0][$i];
+                $obj->quantity = $q_array[0][$i];
+                $obj->save();
+            }
 
-        return view('productorder.index')->with('flash_message', 'Order added!');
+        $output = ['success' => 1,
+                    'msg' => "Order placed"];
+        
+        return $output;
     }
 
     /**
@@ -115,14 +163,19 @@ class ProductOrderController extends Controller
      */
     public function edit($id)
     {
-        $payment_type = $this->get_payment_methods();
+        $addresses = $this->get_addresses();
+        $payment_methods = $this->get_payment_methods();
+        $payment_numbers = $this->get_payment_numbers();
         $shipped_by = $this->get_shipped_by();
-        $shipping_method = $this->get_shipping_method();
+        $shipping_methods = $this->get_shipping_method();
+        $status_0 = $this->get_status_0();
         $status_1 = $this->get_status_1();
         $status_2 = $this->get_status_2();
-        $productorder = Order::findOrFail($id);
+        $note_2 = $this->get_note_2();
+        $productorder = Order::with('customer','shipped_by','products.product_info')->findOrFail($id);
+        //dd($productorder);
 
-        return view('productorder.edit', compact('productorder','payment_type','shipped_by','shipping_method','status_1','status_2'));
+        return view('productorder.edit', compact('productorder','addresses','payment_methods','payment_numbers','shipped_by','shipping_methods','status_0','status_1','status_2','note_2'));
     }
 
     /**
@@ -135,29 +188,66 @@ class ProductOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $date = date('Y-m-d H:i:s');  
+
+        $order = Order::findOrFail($id);
+            $existing_customer = Customer::where('mobile',$request->input('customer_mobile'))->get()->first();
+            if(is_null($existing_customer)){
+                $customer = new Customer;
+                $customer->name = $request->input('customer_name');
+                $customer->mobile = $request->input('customer_mobile');
+                $customer->address = $request->input('customer_address');
+                $customer->address_extension = $request->input('customer_address_extension');
+                $customer->save();
+                $order->customer_id = $customer->id;
+            }else {
+                $order->customer_id = $existing_customer->id;
+                $existing_customer->name = $request->input('customer_name');
+                $existing_customer->mobile = $request->input('customer_mobile');
+                $existing_customer->address = $request->input('customer_address');
+                $existing_customer->address_extension = $request->input('customer_address_extension');
+                $existing_customer->save();
+            }
+            $order->agent_id = $request->input('agent_id');
+            $order->date = $request->input('date');
+            $order->counter = $request->input('counter');
+            $order->offer_price = $request->input('offer_price');
+            $order->status_0 = $request->input('status_0');
+            $order->note_1 = $request->input('note_1');
+            $order->shipped_by = $request->input('shipped_by');
+            $order->shipping_method = $request->input('shipping_method');
+            $order->last_balance = $request->input('last_balance');
+            $order->condition_amount = $request->input('condition_amount');
+            $order->receivable_amount = $request->input('receivable_amount');
+            $order->last_number = $request->input('last_number');
+            $order->cn = $request->input('cn');
+            $order->status_1 = $request->input('status_1');
+            $order->status_2 = $request->input('status_2');
+            $order->note_2 = $request->input('note_2');
+            $order->note_extension = $request->input('note_extension');
+            $order->save();
+            
+            $old_products_id = OrderProducts::where('order_id', $order->id)->select('id')->get();
+            if(!is_null($old_products_id))
+            OrderProducts::destroy($old_products_id);
+
+            $products_id = $request->products_id;
+            $products_quantity = $request->products_quantity;
+            $id_array;
+            preg_match_all('!\d+!', $products_id, $id_array);
+            $q_array;
+            preg_match_all('!\d+!', $products_quantity, $q_array);
+            for($i = 0; $i < count($id_array); $i++) {
+                $obj = new OrderProducts;
+                $obj->order_id = $order->id;
+                $obj->product_id = $id_array[0][$i];
+                $obj->quantity = $q_array[0][$i];
+                $obj->save();
+            }
+
+        $output = ['success' => 1,
+                    'msg' => "Order placed"];
         
-        $requestData = $request->all();
-        
-        $productlead = Order::findOrFail($id);
-        $productlead->shipped_by = $request->shipped_by;
-        $productlead->shipping_method = $request->shipping_method;
-        $productlead->status_1 = $request->status_1;
-        if (strcmp($productlead->status_1, $request->status_1)) {
-            $productlead->date_status_1 = $productlead->date_status_1;
-        }else {
-            $productlead->date_status_1 = $date;
-        }
-        $productlead->status_2 = $request->status_2;
-        if (strcmp($productlead->status_2, $request->status_2)) {
-            $productlead->date_status_2 = $productlead->date_status_2;
-        }else {
-            $productlead->date_status_2 = $date;
-        }
-        $productlead->save();
-        //dd($productlead->status_1);
-        
-        return view('productorder.index')->with('flash_message', 'Order updated!');
+        return $output;
     }
 
     /**
@@ -180,6 +270,16 @@ class ProductOrderController extends Controller
         $data = array();
         foreach ($items as $item) {
             $data[$item->id] = $item->name;
+        }
+        return $data;
+    }
+
+    public function get_payment_numbers()
+    {
+        $items = PaymentNumbers::select('id','mobile')->get();
+        $data = array();
+        foreach ($items as $item) {
+            $data[$item->id] = $item->mobile;
         }
         return $data;
     }
@@ -226,6 +326,12 @@ class ProductOrderController extends Controller
     public function get_status_2()
     {
         $data = Status2::get()->pluck('name','name');
+        return $data;
+    }
+
+    public function get_note_2()
+    {
+        $data = Note2::get()->pluck('name','name');
         return $data;
     }
 

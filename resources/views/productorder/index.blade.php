@@ -37,7 +37,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Customer name</th>
-                            <th>Customer num</th>
+                            <th>Customer number</th>
                             <th>Customer address</th>
                             <th>Shipped by</th>
                             <th>Shipping method</th>
@@ -52,7 +52,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Customer name</th>
-                            <th>Customer num</th>
+                            <th>Customer number</th>
                             <th>Customer address</th>
                             <th>Shipped by</th>
                             <th>Shipping method</th>
@@ -64,6 +64,7 @@
                         </tr>
                     </tfoot>
                 </table>
+                <div class="row" id="export"></div>
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->
@@ -76,6 +77,14 @@
 <script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/libs/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/buttons.flash.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.keyTable.min.js') }}"></script>
+<script src="{{ asset('assets/libs/datatables/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('assets/libs/pdfmake/vfs_fonts.js') }}"></script>
 <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 @endsection
 
@@ -122,7 +131,7 @@ $(function() {
             { data: 'date_status_2', name: 'orders.date_status_2' },
             { data: 'action', name: 'action', orderable: false, searchable: false}
         ],
-        dom: 'Bfrtip',
+        dom: 'lfrtipB',
         buttons: 
         [
             'csv', 'excel'

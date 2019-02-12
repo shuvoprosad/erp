@@ -166,4 +166,10 @@ class ProductController extends Controller
         }
         return $data;
     }
+
+    public function search($query)
+    {
+        $items = Product::where('name','LIKE',$query.'%')->select('id','name','sell_price')->get();
+        return $items->toJson();
+    }
 }

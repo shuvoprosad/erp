@@ -7,6 +7,7 @@
         <meta content="" name="description" />
         <meta content="Advert erp" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="_token" content="{{csrf_token()}}">
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
@@ -228,6 +229,9 @@
                                 <ul class="nav-second-level nav" aria-expanded="false">
                                     <li>
                                         <a href="{{ route('address.index')}}">Address</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('counter.index')}}">Counter</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('status0.index')}}">Status 0</a>
