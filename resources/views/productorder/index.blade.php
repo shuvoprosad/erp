@@ -36,30 +36,36 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Agent name</th>
                             <th>Customer name</th>
-                            <th>Customer number</th>
-                            <th>Customer address</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Extension</th>
+                            <th>Counter</th>
                             <th>Shipped by</th>
                             <th>Shipping method</th>
                             <th>Status 1</th>
-                            <th>Status 1 date</th>
                             <th>Status 2</th>
-                            <th>Status 2 date</th>
+                            <th>Last balance</th>
+                            <th>Last number</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Id</th>
-                            <th>Customer name</th>
-                            <th>Customer number</th>
-                            <th>Customer address</th>
+                            <th>Name</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Extension</th>
+                            <th>Counter</th>
                             <th>Shipped by</th>
                             <th>Shipping method</th>
                             <th>Status 1</th>
-                            <th>Status 1 date</th>
                             <th>Status 2</th>
-                            <th>Status 2 date</th>
+                            <th>Last balance</th>
+                            <th>Last number</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -109,6 +115,7 @@ $(function() {
         serverSide: true,
         scrollX: true,
         responsive: false,
+        fixedHeader: true,
         ajax: 
         {
             url:'{{ route('productorders.index') }}',
@@ -120,15 +127,18 @@ $(function() {
         columns: 
         [
             { data: 'id', name: 'orders.id' },
+            { data: 'agent.name', name: 'agent.name' },
             { data: 'customer.name', name: 'customer.name' },
             { data: 'customer.mobile', name: 'customer.mobile' },
             { data: 'customer.address', name: 'customer.address' },
+            { data: 'customer.address_extension', name: 'customer.address_extension' },
+            { data: 'counter', name: 'orders.counter' },
             { data: 'shipped_by.name', name: 'shipped_by.name' },
             { data: 'shipping_method', name: 'orders.shipping_method' },
             { data: 'status_1', name: 'orders.status_1' },
-            { data: 'date_status_1', name: 'orders.date_status_1' },
             { data: 'status_2', name: 'orders.status_2' },
-            { data: 'date_status_2', name: 'orders.date_status_2' },
+            { data: 'last_balance', name: 'orders.last_balance' },
+            { data: 'last_number', name: 'orders.last_number' },
             { data: 'action', name: 'action', orderable: false, searchable: false}
         ],
         dom: 'lfrtipB',

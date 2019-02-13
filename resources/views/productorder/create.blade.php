@@ -39,13 +39,14 @@
 
 @section('javascript_end')
 <script>
-    $(document).ready(function() 
+$(document).ready(function() 
+{
+    
+    $('#customer_address').select2(
     {
-        $('#customer_address').select2(
-        {
-            minimumResultsForSearch: Infinity
-        });
+        minimumResultsForSearch: Infinity
     });
+
 
     $('input[name=date]').flatpickr(
     {
@@ -116,10 +117,6 @@
         });
     });
 
-
-
-    //
-
     $("#search_products").keyup(function(){
         console.log('search products input');
         let query = $(this).val();
@@ -162,7 +159,8 @@
         console.log(totalAmount);
         $("#receivable_amount").val(totalAmount-conditionAmount);
     });
-// submit 
+
+// form data submition start
     $("#submit").click(function(){
         let form_data = $('.form-horizontal').serializeArray();
         var cartItemContainer = document.getElementsByClassName('cart-items')[0];
@@ -197,17 +195,18 @@
                         console.log(data);
 					    alert("Something went wrong");
 				    }
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
                 }
             });
             
     }); 
-    //or code
+// form data submition end
 
-if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
-} else {
-    ready()
-}
+
+
+ready();
 
 function ready() {
     var removeCartItemButtons = document.getElementsByClassName('btn-danger')
@@ -308,6 +307,8 @@ function updateCartTotal() {
     total = Math.round(total * 100) / 100
     document.getElementsByClassName('cart-total-price')[0].innerText = '' + total
 }
+
+});
 </script>
 @endsection
 

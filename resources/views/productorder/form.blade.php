@@ -84,11 +84,11 @@
 </div>
 <div class="form-group">
     {!! Form::label('payment_method', 'Payment method', ['class' => 'control-label']) !!}
-    {!! Form::select('payment_method',$payment_methods , old('shipping_method'), ['class' => 'form-control']) !!}
+    {!! Form::select('payment_method', $payment_methods, old('shipping_method'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('payment_number', 'Payment number', ['class' => 'control-label']) !!}
-    {!! Form::select('payment_number', $payment_numbers,old('payment_number'), ['class' => 'form-control']) !!}
+    {!! Form::select('payment_number', $payment_numbers, old('payment_number'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('condition_amount', 'Condition amount', ['class' => 'control-label']) !!}
@@ -100,7 +100,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('shipped_by', 'Shipped by', ['class' => 'control-label']) !!}
-    {!! Form::select('shipped_by',$shipped_by , old('shipped_by'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('shipped_by',$shipped_by , old('shipped_by'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('shipping_method', 'Shipping method', ['class' => 'control-label']) !!}
@@ -112,28 +112,26 @@
         {!! Form::text('cn', null, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
-        {!! Form::label('last_balance', 'Last balance', ['class' => 'control-label']) !!}
-        {!! Form::text('last_balance', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-        {!! Form::label('last_number', 'Last number', ['class' => 'control-label']) !!}
-        {!! Form::select('last_number', $payment_numbers,old('last_number'), ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
     {!! Form::label('status_1', 'Status 1', ['class' => 'control-label']) !!}
-    {!! Form::select('status_1',$status_1 , old('status_1'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('status_1',$status_1 , old('status_1'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('status_2', 'Status 2', ['class' => 'control-label']) !!}
-    {!! Form::select('status_2',$status_2 , old('status_2'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('status_2',$status_2 , old('status_2'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('note_2', 'Note 2', ['class' => 'control-label']) !!}
-    {!! Form::select('note_2',$note_2 , old('status_2'), ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::select('note_2',$note_2 , old('status_2'), ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('note_extension', 'Note extension', ['class' => 'control-label']) !!}
-    {!! Form::text('note_extension', null, ['class' => 'form-control', 'data-toggle'=>'select2']) !!}
+    {!! Form::text('note_extension', null, ['class' => 'form-control']) !!}
 </div>
-
-
+<div class="form-group">
+    {!! Form::label('last_balance', 'Last balance', ['class' => 'control-label']) !!}
+    {!! Form::text('last_balance', null, ['class' => 'form-control']) !!}
+</div>
+<div class="form-group">
+    {!! Form::label('last_number', 'Last number', ['class' => 'control-label']) !!}
+    {!! Form::text('last_number', null, ['class' => 'form-control']) !!}
+</div>

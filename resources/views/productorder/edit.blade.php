@@ -39,7 +39,6 @@
 @section('javascript')
 <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/select2.min.js')}}"></script>
-<script src="{{ asset('assets/libs/autocomplete/jquery.autocomplete.min.js')}}"></script>
 @endsection
 
 @section('javascript_end')
@@ -196,10 +195,10 @@ $("#submit").click(function(){
                     console.log(data);
                     if(data.success == 1){
 					alert(data.msg);
-				    } else {
-                        console.log(data);
-					    alert("Something went wrong");
 				    }
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
                 }
             });
             
@@ -312,5 +311,6 @@ function updateCartTotal() {
     total = Math.round(total * 100) / 100
     document.getElementsByClassName('cart-total-price')[0].innerText = '' + total
 }
+
 </script>
 @endsection

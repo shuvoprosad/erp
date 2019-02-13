@@ -18,6 +18,7 @@ use App\PaymentMethod;
 use App\PaymentNumbers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class ProductOrderController extends Controller
 {
@@ -32,7 +33,7 @@ class ProductOrderController extends Controller
         
         if (request()->ajax()|| 1==9) 
         {
-            $orders = Order::with('customer','shipped_by')->select('orders.*')->whereIn('status_0', ['accepted',]);
+            $orders = Order::with('customer','agent','shipped_by')->select('orders.*')->whereIn('status_0', ['accepted',]);
             
             return datatables()
             ->of($orders)
@@ -119,8 +120,8 @@ class ProductOrderController extends Controller
             $order->note_2 = $request->input('note_2');
             $order->note_extension = $request->input('note_extension');
             $order->save();
-            
-            $products_id = $request->products_id;
+            try {
+                $products_id = $request->products_id;
             $products_quantity = $request->products_quantity;
             $id_array;
             preg_match_all('!\d+!', $products_id, $id_array);
@@ -133,6 +134,24 @@ class ProductOrderController extends Controller
                 $obj->quantity = $q_array[0][$i];
                 $obj->save();
             }
+            } catch (Exception $e) {
+                $output = ['success' => 1,
+                    'msg' => $e];
+                    return $output;
+            }
+            // $products_id = $request->products_id;
+            // $products_quantity = $request->products_quantity;
+            // $id_array;
+            // preg_match_all('!\d+!', $products_id, $id_array);
+            // $q_array;
+            // preg_match_all('!\d+!', $products_quantity, $q_array);
+            // for($i = 0; $i < count($id_array); $i++) {
+            //     $obj = new OrderProducts;
+            //     $obj->order_id = $order->id;
+            //     $obj->product_id = $id_array[0][$i];
+            //     $obj->quantity = $q_array[0][$i];
+            //     $obj->save();
+            // }
 
         $output = ['success' => 1,
                     'msg' => "Order placed"];
@@ -189,51 +208,53 @@ class ProductOrderController extends Controller
     public function update(Request $request, $id)
     {
 
-        $order = Order::findOrFail($id);
-            $existing_customer = Customer::where('mobile',$request->input('customer_mobile'))->get()->first();
-            if(is_null($existing_customer)){
-                $customer = new Customer;
-                $customer->name = $request->input('customer_name');
-                $customer->mobile = $request->input('customer_mobile');
-                $customer->address = $request->input('customer_address');
-                $customer->address_extension = $request->input('customer_address_extension');
-                $customer->save();
-                $order->customer_id = $customer->id;
-            }else {
-                $order->customer_id = $existing_customer->id;
-                $existing_customer->name = $request->input('customer_name');
-                $existing_customer->mobile = $request->input('customer_mobile');
-                $existing_customer->address = $request->input('customer_address');
-                $existing_customer->address_extension = $request->input('customer_address_extension');
-                $existing_customer->save();
-            }
-            $order->agent_id = $request->input('agent_id');
-            $order->date = $request->input('date');
-            $order->counter = $request->input('counter');
-            $order->offer_price = $request->input('offer_price');
-            $order->status_0 = $request->input('status_0');
-            $order->note_1 = $request->input('note_1');
-            $order->shipped_by = $request->input('shipped_by');
-            $order->shipping_method = $request->input('shipping_method');
-            $order->last_balance = $request->input('last_balance');
-            $order->condition_amount = $request->input('condition_amount');
-            $order->receivable_amount = $request->input('receivable_amount');
-            $order->last_number = $request->input('last_number');
-            $order->cn = $request->input('cn');
-            $order->status_1 = $request->input('status_1');
-            $order->status_2 = $request->input('status_2');
-            $order->note_2 = $request->input('note_2');
-            $order->note_extension = $request->input('note_extension');
-            $order->save();
-            
-            $old_products_id = OrderProducts::where('order_id', $order->id)->select('id')->get();
-            if(!is_null($old_products_id))
-            OrderProducts::destroy($old_products_id);
+        $order = Order::find($id);
+        $existing_customer = Customer::where('mobile',$request->input('customer_mobile'))->get()->first();
+        if(is_null($existing_customer)){
+            $customer = new Customer;
+            $customer->name = $request->input('customer_name');
+            $customer->mobile = $request->input('customer_mobile');
+            $customer->address = $request->input('customer_address');
+            $customer->address_extension = $request->input('customer_address_extension');
+            $customer->save();
+            $order->customer_id = $customer->id;
+        }else {
+            $order->customer_id = $existing_customer->id;
+            $existing_customer->name = $request->input('customer_name');
+            $existing_customer->mobile = $request->input('customer_mobile');
+            $existing_customer->address = $request->input('customer_address');
+            $existing_customer->address_extension = $request->input('customer_address_extension');
+            $existing_customer->save();
+        }
+        $order->agent_id = $request->input('agent_id');
+        $order->date = $request->input('date');
+        $order->counter = $request->input('counter');
+        $order->offer_price = $request->input('offer_price');
+        $order->status_0 = $request->input('status_0');
+        $order->note_1 = $request->input('note_1');
+        $order->shipped_by = $request->input('shipped_by');
+        $order->shipping_method = $request->input('shipping_method');
+        $order->last_balance = $request->input('last_balance');
+        $order->condition_amount = $request->input('condition_amount');
+        $order->receivable_amount = $request->input('receivable_amount');
+        $order->last_number = $request->input('last_number');
+        $order->cn = $request->input('cn');
+        $order->status_1 = $request->input('status_1');
+        $order->status_2 = $request->input('status_2');
+        $order->note_2 = $request->input('note_2');
+        $order->note_extension = $request->input('note_extension');
+        $order->save();
 
-            $products_id = $request->products_id;
-            $products_quantity = $request->products_quantity;
+        $old_products_id = OrderProducts::where('order_id', $order->id)->pluck('id');
+        foreach($old_products_id as $id){
+            OrderProducts::destroy($id); 
+        }
+
+        $products_id = $request->products_id;
+        if(!is_null($products_id)){
             $id_array;
             preg_match_all('!\d+!', $products_id, $id_array);
+            $products_quantity = $request->products_quantity;
             $q_array;
             preg_match_all('!\d+!', $products_quantity, $q_array);
             for($i = 0; $i < count($id_array); $i++) {
@@ -243,11 +264,12 @@ class ProductOrderController extends Controller
                 $obj->quantity = $q_array[0][$i];
                 $obj->save();
             }
+        }
 
         $output = ['success' => 1,
-                    'msg' => "Order placed"];
+                    'msg' => "Order updated"];
         
-        return $output;
+        return $output->toJson();
     }
 
     /**
